@@ -1,0 +1,7 @@
+.boxRow {
+  display: flex;
+  list-style: none;
+}
+.boxColum {
+  list-style: none;
+}

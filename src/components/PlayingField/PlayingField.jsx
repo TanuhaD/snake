@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { PLAYING_FIELD_HEIGHT, PLAYING_FIELD_WIDTH } from "../../constants";
 import Box from "../Box/Box";
 import css from "./PlayingField.module.css";
+import PropTypes from "prop-types";
 
 const field = [];
 for (let i = 0; i < PLAYING_FIELD_WIDTH; i++) {
@@ -12,68 +12,32 @@ for (let i = 0; i < PLAYING_FIELD_WIDTH; i++) {
   }
 }
 
-const PlayingField = ({ snake, isGameOver, setIsGameOver, deletedElem }) => {
-  const [playingField, setPlayingField] = useState(field);
-
-  useEffect(() => {
-    const head = snake.at(-1);
-    if (
-      head.x >= PLAYING_FIELD_WIDTH ||
-      head.x <= 0 ||
-      head.y >= PLAYING_FIELD_HEIGHT ||
-      head.y <= 0
-    ) {
-      setIsGameOver(true);
-    }
-  }, [setIsGameOver, snake]);
-
-  useEffect(() => {
-    const head = snake.at(-1);
-    if (
-      head.x >= PLAYING_FIELD_WIDTH ||
-      head.x <= 0 ||
-      head.y >= PLAYING_FIELD_HEIGHT ||
-      head.y <= 0
-    ) {
-      return;
-    }
-    let newField = [...field];
-    snake.forEach((elem) => {
-      newField[elem.x][elem.y].isFilled = true;
-    });
-    if (deletedElem) {
-      console.log(deletedElem);
-      newField[deletedElem.x][deletedElem.y].isFilled = false;
-    }
-    setPlayingField(newField);
-  }, [deletedElem, snake]);
-
-  let matrix = "";
-  for (let i = 0; i < PLAYING_FIELD_WIDTH; i++) {
-    for (let j = 0; j < PLAYING_FIELD_HEIGHT; j++) {
-      matrix += playingField[i][j].isFilled ? "1 " : "0 ";
-    }
-    matrix += "\n";
-  }
-  console.log(matrix);
-
-  // if (isGameOver) {
-  //   return <div>Game Over</div>;
-  // }
+const PlayingField = ({ snake, foodCoords }) => {
   return (
     <ul className={css.boxRow}>
-      {playingField.map((column, x) => {
+      {field.map((column, x) => {
         return (
-          <li key={x}>
+          <li key={x} className={css.boxItem}>
             <ul className={css.boxColum}>
-              {column.map((elem) => {
-                if (elem.isFilled) {
-                  console.log("num: ", elem.num);
-                  console.log("filled");
+              {column.map((elem, y) => {
+                let isFilled = false;
+                let isFood = false;
+                snake.forEach((section) => {
+                  if (section.x === x && section.y === y) {
+                    isFilled = true;
+                  }
+                });
+                if (foodCoords.x === x && foodCoords.y === y) {
+                  isFood = true;
                 }
                 return (
                   <li key={elem.num}>
-                    <Box isFilled={elem.isFilled} />
+                    <Box
+                      isFilled={isFilled}
+                      isFood={isFood}
+                      isLastColumn={x === PLAYING_FIELD_WIDTH - 1}
+                      isLastRow={y === PLAYING_FIELD_HEIGHT - 1}
+                    />
                   </li>
                 );
               })}
@@ -83,6 +47,10 @@ const PlayingField = ({ snake, isGameOver, setIsGameOver, deletedElem }) => {
       })}
     </ul>
   );
+};
+PlayingField.propTypes = {
+  snake: PropTypes.array,
+  foodCoords: PropTypes.object,
 };
 
 export default PlayingField;

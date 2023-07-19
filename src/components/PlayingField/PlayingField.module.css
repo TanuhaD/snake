@@ -2,6 +2,9 @@
   display: flex;
   list-style: none;
 }
+.boxItem {
+  border: none;
+}
 .boxColum {
   list-style: none;
 }

@@ -21,33 +21,3 @@
   padding: 5px;
   margin-bottom: 20px;
 }
-.wrapperBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin-top: 20px;
-}
-
-.boxBtn {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-}
-.controlBtn {
-  width: 80px;
-  height: 40px;
-  background-color: rgb(206, 180, 231);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-
-.controlBtn:hover,
-.controlBtn:focus {
-  background-color: rgb(84, 5, 159);
-}
